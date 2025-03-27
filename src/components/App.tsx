@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, FC, useCallback, useEffect } from "react";
+import { ChangeEvent, useState, FC, useCallback } from "react";
 import styled from "styled-components";
 import { MemoList } from "./MemoList";
 import { useMemoList } from "./../hooks/useMemoList";
@@ -11,8 +11,10 @@ export const App: FC = () => {
     setText(e.target.value);
 
   const onClickAdd = () => {
-    addTodo(text);
-    setText("");
+    if (text.length <= 15) {
+      addTodo(text);
+      setText("");
+    }
   };
 
   const onClickDelete = useCallback(
@@ -26,6 +28,7 @@ export const App: FC = () => {
     <div>
       <h1>簡単メモアプリ</h1>
       <div>{message}</div>
+      {text.length <= 15 ? null : <SDiv>文字数が長すぎます。</SDiv>}
       <input type="text" value={text} onChange={onChangeText} />
       <SButton onClick={onClickAdd}>追加</SButton>
       <MemoList memos={memos} onClickDelete={onClickDelete} />
@@ -35,4 +38,8 @@ export const App: FC = () => {
 
 const SButton = styled.button`
   margin-left: 16px;
+`;
+
+const SDiv = styled.div`
+  color: red;
 `;
