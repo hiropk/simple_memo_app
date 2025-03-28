@@ -29,6 +29,7 @@ export const App: FC = () => {
 
   const onClickReset = useCallback(() => {
     setMemos([]);
+    localStorage.removeItem("memos");
   }, []);
 
   return (
