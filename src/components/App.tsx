@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, FC, useCallback } from "react";
+import { ChangeEvent, useState, FC, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import { MemoList } from "./MemoList";
 import { useMemoList } from "./../hooks/useMemoList";
@@ -7,6 +7,10 @@ export const App: FC = () => {
   const { memos, setMemos, message, tooLongText, addTodo, deleteTodo } =
     useMemoList();
   const [text, setText] = useState<string>("");
+
+  useEffect(() => {
+    setMemos(JSON.parse(localStorage.getItem("memos") || "[]"));
+  }, []);
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);

@@ -19,6 +19,7 @@ export const useMemoList = () => {
         newMemos.push(text);
         setMemos(newMemos);
         setMessage("更新しました");
+        localStorage.setItem("memos", JSON.stringify(newMemos));
       } else {
         setMessage("更新に失敗しました");
       }
