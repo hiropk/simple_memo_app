@@ -33,6 +33,7 @@ export const useMemoList = () => {
       newMemos.splice(index, 1);
       setMemos(newMemos);
       setMessage("削除しました");
+      localStorage.setItem("memos", JSON.stringify(newMemos));
     },
     [memos]
   );
