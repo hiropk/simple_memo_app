@@ -8,12 +8,20 @@ export const useMemoList = () => {
     setMessage("");
   }, []);
 
+  const tooLongText = (text: string) => {
+    return text.length <= 15;
+  };
+
   const addTodo = useCallback(
     (text: string) => {
-      const newMemos = [...memos];
-      newMemos.push(text);
-      setMemos(newMemos);
-      setMessage("更新しました");
+      if (tooLongText(text)) {
+        const newMemos = [...memos];
+        newMemos.push(text);
+        setMemos(newMemos);
+        setMessage("更新しました");
+      } else {
+        setMessage("更新に失敗しました");
+      }
     },
     [memos]
   );
@@ -28,5 +36,5 @@ export const useMemoList = () => {
     [memos]
   );
 
-  return { memos, message, addTodo, deleteTodo };
+  return { memos, message, setMemos, tooLongText, addTodo, deleteTodo };
 };

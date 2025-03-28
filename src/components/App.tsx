@@ -4,17 +4,16 @@ import { MemoList } from "./MemoList";
 import { useMemoList } from "./../hooks/useMemoList";
 
 export const App: FC = () => {
-  const { memos, message, addTodo, deleteTodo } = useMemoList();
+  const { memos, setMemos, message, tooLongText, addTodo, deleteTodo } =
+    useMemoList();
   const [text, setText] = useState<string>("");
 
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
 
   const onClickAdd = () => {
-    if (text.length <= 15) {
-      addTodo(text);
-      setText("");
-    }
+    addTodo(text);
+    setText("");
   };
 
   const onClickDelete = useCallback(
@@ -24,13 +23,18 @@ export const App: FC = () => {
     [deleteTodo]
   );
 
+  const onClickReset = useCallback(() => {
+    setMemos([]);
+  }, []);
+
   return (
     <div>
       <h1>簡単メモアプリ</h1>
       <div>{message}</div>
-      {text.length <= 15 ? null : <SDiv>文字数が長すぎます。</SDiv>}
+      {tooLongText(text) ? null : <SDiv>文字数が長すぎます。</SDiv>}
       <input type="text" value={text} onChange={onChangeText} />
       <SButton onClick={onClickAdd}>追加</SButton>
+      <SButton onClick={onClickReset}>メモを全て削除</SButton>
       <MemoList memos={memos} onClickDelete={onClickDelete} />
     </div>
   );
